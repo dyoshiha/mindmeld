@@ -17,7 +17,6 @@ import codecs
 import logging
 import re
 
-from janome.tokenizer import Tokenizer as janome
 from .path import ASCII_FOLDING_DICT_PATH
 
 logger = logging.getLogger(__name__)
@@ -233,8 +232,7 @@ class Tokenizer:
             list: A list of normalized tokens
         """
 
-        #raw_tokens = self.tokenize_raw(text)
-        raw_tokens = self.tokenize_raw_ja(text)
+        raw_tokens = self.tokenize_raw(text)
 
         norm_tokens = []
         for i, raw_token in enumerate(raw_tokens):
@@ -270,19 +268,6 @@ class Tokenizer:
             raw_token['norm_token_count'] = norm_token_count
 
         return norm_tokens
-
-    @staticmethod
-    def tokenize_raw_ja(text):
-        ja = janome()
-        j = 0
-        tokens = []
-        token = {}
-        print(ja.tokenize(text))
-        for t in ja.tokenize(text):
-            token = { 'start' : j, 'text' : t.surface }
-            tokens.append(token)
-            j = j + len(t.surface)
-        return tokens
 
     @staticmethod
     def tokenize_raw(text):
